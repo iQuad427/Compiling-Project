@@ -1,0 +1,1 @@
+BEGINFactorial%%Computethefactorialofanumber.Iftheinputnumberisnegative,print-1.%%READ(number),result:=1,IF(number>-1)THENWHILEnumber>0DOresult:=result*number,number:=number-1,END,ELSEresult:=-1,END,PRINT(result),END::testshortcomment

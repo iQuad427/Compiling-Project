@@ -1,0 +1,1 @@
+BEGIN Factorial %% Compute the factorial of a number. If the input number is negative, print -1. %% READ(number) ,result := 1 ,IF (number > -1) THEN WHILE number > 0 DO result := result * number ,number := number - 1 ,END ,ELSE result := -1 ,END ,PRINT(result) ,END
