@@ -8,4 +8,3 @@ clean:
 	rm bin/*.class
 	rm dist/part1.jar
 	rm src/LexicalAnalyzer.java
-	rm src/*.java~
