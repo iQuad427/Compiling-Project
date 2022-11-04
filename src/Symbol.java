@@ -69,4 +69,9 @@ public class Symbol{
 		}
 		return "Non-terminal symbol";
 	}
+
+	public String toTexString() {
+		// TODO : implement yourself
+		return null;
+	}
 }
