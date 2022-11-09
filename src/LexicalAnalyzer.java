@@ -315,12 +315,7 @@ class LexicalAnalyzer {
   private boolean zzEOFDone;
 
   /* user code: */
-    // print and return the Symbol
-    Symbol bothPrintAndReturn(LexicalUnit token, int line, int column, String value) {
-        Symbol sym = new Symbol(token, line, column, value);
-        // System.out.println(sym);
-        return sym;
-    }
+    // implement java code
 
 
   /**
@@ -575,7 +570,7 @@ class LexicalAnalyzer {
     if (!zzEOFDone) {
       zzEOFDone = true;
     
-    // return new Symbol(LexicalUnit.EOS, yyline, yycolumn);
+    // last code to execute
     }
   }
 
@@ -736,7 +731,8 @@ class LexicalAnalyzer {
             }  // fall though
             case 72: break;
             default:
-        return null;
+          {     return new Symbol(LexicalUnit.EOS, yyline, yycolumn);
+ }
         }
       }
       else {
@@ -752,62 +748,62 @@ class LexicalAnalyzer {
             // fall through
           case 34: break;
           case 3:
-            { return bothPrintAndReturn(LexicalUnit.LPAREN, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.LPAREN, yyline, yycolumn, yytext());
             }
             // fall through
           case 35: break;
           case 4:
-            { return bothPrintAndReturn(LexicalUnit.RPAREN, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.RPAREN, yyline, yycolumn, yytext());
             }
             // fall through
           case 36: break;
           case 5:
-            { return bothPrintAndReturn(LexicalUnit.TIMES, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.TIMES, yyline, yycolumn, yytext());
             }
             // fall through
           case 37: break;
           case 6:
-            { return bothPrintAndReturn(LexicalUnit.PLUS, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.PLUS, yyline, yycolumn, yytext());
             }
             // fall through
           case 38: break;
           case 7:
-            { return bothPrintAndReturn(LexicalUnit.COMMA, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.COMMA, yyline, yycolumn, yytext());
             }
             // fall through
           case 39: break;
           case 8:
-            { return bothPrintAndReturn(LexicalUnit.MINUS, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.MINUS, yyline, yycolumn, yytext());
             }
             // fall through
           case 40: break;
           case 9:
-            { return bothPrintAndReturn(LexicalUnit.DIVIDE, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.DIVIDE, yyline, yycolumn, yytext());
             }
             // fall through
           case 41: break;
           case 10:
-            { return bothPrintAndReturn(LexicalUnit.NUMBER, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.NUMBER, yyline, yycolumn, yytext());
             }
             // fall through
           case 42: break;
           case 11:
-            { return bothPrintAndReturn(LexicalUnit.SMALLER, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.SMALLER, yyline, yycolumn, yytext());
             }
             // fall through
           case 43: break;
           case 12:
-            { return bothPrintAndReturn(LexicalUnit.EQUAL, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.EQUAL, yyline, yycolumn, yytext());
             }
             // fall through
           case 44: break;
           case 13:
-            { return bothPrintAndReturn(LexicalUnit.GREATER, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.GREATER, yyline, yycolumn, yytext());
             }
             // fall through
           case 45: break;
           case 14:
-            { return bothPrintAndReturn(LexicalUnit.VARNAME, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.VARNAME, yyline, yycolumn, yytext());
             }
             // fall through
           case 46: break;
@@ -818,8 +814,8 @@ class LexicalAnalyzer {
           case 47: break;
           case 16:
             { yybegin(YYINITIAL);
-            System.out.println("Warning : all uppercases ProgName are not allowed : " + yytext());
-            return bothPrintAndReturn(LexicalUnit.PROGNAME, yyline, yycolumn, yytext());
+                            System.out.println("Warning : all uppercases ProgName are not allowed : " + yytext());
+                            return new Symbol(LexicalUnit.PROGNAME, yyline, yycolumn, yytext());
             }
             // fall through
           case 48: break;
@@ -835,7 +831,7 @@ class LexicalAnalyzer {
           case 50: break;
           case 19:
             { System.out.println("Warning : numbers with leading zeroes are not allowed");
-            return bothPrintAndReturn(LexicalUnit.NUMBER, yyline, yycolumn, yytext());
+            return new Symbol(LexicalUnit.NUMBER, yyline, yycolumn, yytext());
             }
             // fall through
           case 51: break;
@@ -845,63 +841,63 @@ class LexicalAnalyzer {
             // fall through
           case 52: break;
           case 21:
-            { return bothPrintAndReturn(LexicalUnit.ASSIGN, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.ASSIGN, yyline, yycolumn, yytext());
             }
             // fall through
           case 53: break;
           case 22:
-            { return bothPrintAndReturn(LexicalUnit.DO, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.DO, yyline, yycolumn, yytext());
             }
             // fall through
           case 54: break;
           case 23:
-            { return bothPrintAndReturn(LexicalUnit.IF, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.IF, yyline, yycolumn, yytext());
             }
             // fall through
           case 55: break;
           case 24:
             { yybegin(YYINITIAL);
-            return bothPrintAndReturn(LexicalUnit.PROGNAME, yyline, yycolumn, yytext());
+                            return new Symbol(LexicalUnit.PROGNAME, yyline, yycolumn, yytext());
             }
             // fall through
           case 56: break;
           case 25:
-            { return bothPrintAndReturn(LexicalUnit.END, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.END, yyline, yycolumn, yytext());
             }
             // fall through
           case 57: break;
           case 26:
-            { return bothPrintAndReturn(LexicalUnit.ELSE, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.ELSE, yyline, yycolumn, yytext());
             }
             // fall through
           case 58: break;
           case 27:
-            { return bothPrintAndReturn(LexicalUnit.READ, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.READ, yyline, yycolumn, yytext());
             }
             // fall through
           case 59: break;
           case 28:
-            { return bothPrintAndReturn(LexicalUnit.THEN, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.THEN, yyline, yycolumn, yytext());
             }
             // fall through
           case 60: break;
           case 29:
-            { yybegin(PROGNAME); return bothPrintAndReturn(LexicalUnit.BEGIN, yyline, yycolumn, yytext());
+            { yybegin(PROGNAME); return new Symbol(LexicalUnit.BEGIN, yyline, yycolumn, yytext());
             }
             // fall through
           case 61: break;
           case 30:
-            { return bothPrintAndReturn(LexicalUnit.ENDIF, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.ENDIF, yyline, yycolumn, yytext());
             }
             // fall through
           case 62: break;
           case 31:
-            { return bothPrintAndReturn(LexicalUnit.PRINT, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.PRINT, yyline, yycolumn, yytext());
             }
             // fall through
           case 63: break;
           case 32:
-            { return bothPrintAndReturn(LexicalUnit.WHILE, yyline, yycolumn, yytext());
+            { return new Symbol(LexicalUnit.WHILE, yyline, yycolumn, yytext());
             }
             // fall through
           case 64: break;

@@ -1,4 +1,5 @@
-public class Symbol{
+
+public class Symbol {
 	public static final int UNDEFINED_POSITION = -1;
 	public static final Object NO_VALUE = null;
 	
@@ -6,8 +7,8 @@ public class Symbol{
 	private final Object value;
 	private final int line,column;
 
-	public Symbol(LexicalUnit unit,int line,int column,Object value){
-    this.type	= unit;
+	public Symbol(LexicalUnit unit,int line,int column,Object value) {
+    	this.type	= unit;
 		this.line	= line+1;
 		this.column	= column;
 		this.value	= value;
@@ -54,14 +55,14 @@ public class Symbol{
 	}
 	
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		final String value	= this.value != null? this.value.toString() : "null";
 		final String type		= this.type  != null? this.type.toString()  : "null";
 		return new String(value+"_"+type).hashCode();
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		if(this.isTerminal()){
 			final String value	= this.value != null? this.value.toString() : "null";
 			final String type		= this.type  != null? this.type.toString()  : "null";
@@ -71,7 +72,6 @@ public class Symbol{
 	}
 
 	public String toTexString() {
-		// TODO : implement yourself
-		return null;
+		return value.toString();
 	}
 }

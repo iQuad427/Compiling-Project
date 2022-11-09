@@ -10,29 +10,35 @@ public class Parser {
         this.lexer = lexer;
     }
 
-    public void startParsing() {
+    public ParseTree startParsing() {
         nextToken();
-        Program();
+        return Program();
     }
 
     private ParseTree Program() {
+        System.out.print("1 ");
         List<ParseTree> leaves = new ArrayList<>();
         leaves.add(match(LexicalUnit.BEGIN));
         leaves.add(match(LexicalUnit.PROGNAME));
         leaves.add(Code());
         leaves.add(match(LexicalUnit.END));
-        return new ParseTree(new Symbol(LexicalUnit.Program), leaves);
+        System.out.print("\n");
+        return new ParseTree(new Symbol(LexicalUnit.Program, "Program"), leaves);
     }
 
     private ParseTree Code() {
         List<ParseTree> leaves = new ArrayList<>();
         switch (currentToken.getType()) {
-            case END -> {return new ParseTree(new Symbol(LexicalUnit.EPSILON));}
+            case END, ELSE -> {
+                System.out.print("3 ");
+                return new ParseTree(new Symbol(LexicalUnit.EPSILON, "$\\epsilon$"));
+            }
             case IF, WHILE, PRINT, READ, VARNAME -> {
+                System.out.print("2 ");
                 leaves.add(Instruction());
                 leaves.add(match(LexicalUnit.COMMA));
                 leaves.add(Code());
-                return new ParseTree(new Symbol(LexicalUnit.Code), leaves);
+                return new ParseTree(new Symbol(LexicalUnit.Code, "Code"), leaves);
             }
             default -> throw new RuntimeException();
         }
@@ -41,14 +47,24 @@ public class Parser {
     private ParseTree Instruction() {
         List<ParseTree> leaves = new ArrayList<>();
         switch (currentToken.getType()) {
-            case IF -> leaves.add(If());
-            case WHILE -> leaves.add(While());
-            case PRINT -> leaves.add(Print());
-            case READ -> leaves.add(Read());
-            case VARNAME -> leaves.add(Assign());
+            case IF -> {
+                leaves.add(If());
+            }
+            case WHILE -> {
+                leaves.add(While());
+            }
+            case PRINT -> {
+                leaves.add(Print());
+            }
+            case READ -> {
+                leaves.add(Read());
+            }
+            case VARNAME -> {
+                leaves.add(Assign());
+            }
             default -> throw new RuntimeException();
         }
-        return new ParseTree(new Symbol(LexicalUnit.Instruction), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Instruction, "Instruction"), leaves);
     }
 
     private ParseTree Assign() {
@@ -56,7 +72,7 @@ public class Parser {
         leaves.add(match(LexicalUnit.VARNAME));
         leaves.add(match(LexicalUnit.ASSIGN));
         leaves.add(Expression());
-        return new ParseTree(new Symbol(LexicalUnit.Assign), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Assign, "Assign"), leaves);
     }
 
     private ParseTree If() {
@@ -68,7 +84,7 @@ public class Parser {
         leaves.add(match(LexicalUnit.THEN));
         leaves.add(Code());
         leaves.add(EndIf());
-        return new ParseTree(new Symbol(LexicalUnit.If), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.If, "If"), leaves);
     }
 
     private ParseTree EndIf() {
@@ -82,7 +98,7 @@ public class Parser {
             }
             default -> throw new RuntimeException();
         }
-        return new ParseTree(new Symbol(LexicalUnit.EndIf), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.EndIf, "EndIf"), leaves);
     }
 
     private ParseTree While() {
@@ -94,7 +110,7 @@ public class Parser {
         leaves.add(match(LexicalUnit.DO));
         leaves.add(Code());
         leaves.add(match(LexicalUnit.END));
-        return new ParseTree(new Symbol(LexicalUnit.While), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.While, "While"), leaves);
     }
 
     private ParseTree Print() {
@@ -103,7 +119,7 @@ public class Parser {
         leaves.add(match(LexicalUnit.LPAREN));
         leaves.add(match(LexicalUnit.VARNAME));
         leaves.add(match(LexicalUnit.RPAREN));
-        return new ParseTree(new Symbol(LexicalUnit.Print), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Print, "Print"), leaves);
     }
 
     private ParseTree Read() {
@@ -112,7 +128,7 @@ public class Parser {
         leaves.add(match(LexicalUnit.LPAREN));
         leaves.add(match(LexicalUnit.VARNAME));
         leaves.add(match(LexicalUnit.RPAREN));
-        return new ParseTree(new Symbol(LexicalUnit.Read), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Read, "Read"), leaves);
     }
 
     private ParseTree Cond() {
@@ -120,7 +136,7 @@ public class Parser {
         leaves.add(Expression());
         leaves.add(Comp());
         leaves.add(Expression());
-        return new ParseTree(new Symbol(LexicalUnit.Cond), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Cond, "Cond"), leaves);
     }
 
     private ParseTree Comp() {
@@ -130,14 +146,14 @@ public class Parser {
             case SMALLER -> leaves.add(match(LexicalUnit.SMALLER));
             case GREATER -> leaves.add(match(LexicalUnit.GREATER));
         }
-        return new ParseTree(new Symbol(LexicalUnit.Comp), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Comp, "Comp"), leaves);
     }
 
     private ParseTree Expression() {
         List<ParseTree> leaves = new ArrayList<>();
         leaves.add(Product());
         leaves.add(Expression2());
-        return new ParseTree(new Symbol(LexicalUnit.Expression), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Expression, "Expression"), leaves);
     }
 
     private ParseTree Expression2() {
@@ -153,16 +169,16 @@ public class Parser {
                 leaves.add(Product());
                 leaves.add(Expression2());
             }
-            case COMMA, RPAREN, EQUAL, GREATER, SMALLER -> {return new ParseTree(new Symbol(LexicalUnit.EPSILON));}
+            case COMMA, RPAREN, EQUAL, GREATER, SMALLER -> {return new ParseTree(new Symbol(LexicalUnit.EPSILON, "$\\epsilon$"));}
         }
-        return new ParseTree(new Symbol(LexicalUnit.Expression2), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Expression2, "Expression'"), leaves);
     }
 
     private ParseTree Product() {
         List<ParseTree> leaves = new ArrayList<>();
         leaves.add(Atom());
         leaves.add(Product2());
-        return new ParseTree(new Symbol(LexicalUnit.Product), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Product, "Product"), leaves);
     }
 
     private ParseTree Product2() {
@@ -178,9 +194,9 @@ public class Parser {
                 leaves.add(Atom());
                 leaves.add(Product2());
             }
-            case COMMA, PLUS, MINUS, RPAREN, EQUAL, GREATER, SMALLER -> {return new ParseTree(new Symbol(LexicalUnit.EPSILON));}
+            case COMMA, PLUS, MINUS, RPAREN, EQUAL, GREATER, SMALLER -> {return new ParseTree(new Symbol(LexicalUnit.EPSILON, "$\\epsilon$"));}
         }
-        return new ParseTree(new Symbol(LexicalUnit.Product2), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Product2, "Product'"), leaves);
     }
 
     private ParseTree Atom() {
@@ -198,7 +214,7 @@ public class Parser {
                 leaves.add(match(LexicalUnit.RPAREN));
             }
         }
-        return new ParseTree(new Symbol(LexicalUnit.Atom), leaves);
+        return new ParseTree(new Symbol(LexicalUnit.Atom, "Atom"), leaves);
     }
 
     private void nextToken() {
@@ -212,6 +228,7 @@ public class Parser {
 
     private ParseTree match(LexicalUnit expectedToken) {
         ParseTree leaf;
+        // System.out.println("Expected : " + expectedToken + ", Actual : " + currentToken.getType());
         if (!currentToken.getType().equals(expectedToken)) {
             throw new RuntimeException();
         } else {
