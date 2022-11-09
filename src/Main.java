@@ -26,7 +26,7 @@ public class Main {
         try {
             LexicalAnalyzer lexer = new LexicalAnalyzer(new FileReader(inputPath));
             while ((symbol = lexer.nextToken()).getValue() != null) {
-                System.out.println(symbol);
+                // System.out.println(symbol);
                 if (symbol.getType().equals(LexicalUnit.VARNAME)) {
                     if (!variableTable.containsKey(symbol.getValue().toString())) {
                         variableTable.put(symbol.getValue().toString(), symbol);
