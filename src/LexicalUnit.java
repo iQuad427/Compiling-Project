@@ -23,5 +23,22 @@ public enum LexicalUnit{
     DO,
     PRINT,
     READ,
-    EOS
+    EOS,
+    EPSILON,
+    Program,
+    Code,
+    Instruction,
+    Assign,
+    Expression,
+    Expression2,
+    Product,
+    Product2,
+    Atom,
+    Cond,
+    Comp,
+    If,
+    EndIf,
+    While,
+    Print,
+    Read
 }
