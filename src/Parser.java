@@ -1,13 +1,21 @@
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Parser {
     private final LexicalAnalyzer lexer;
     private Symbol currentToken;
+    private TreeMap<String, Symbol> variableTable = new TreeMap<>();
 
     public Parser(LexicalAnalyzer lexer){
         this.lexer = lexer;
+    }
+
+    public TreeMap<String, Symbol> getVariableTable() {
+        return variableTable;
     }
 
     public ParseTree startParsing() {
@@ -276,10 +284,20 @@ public class Parser {
         ParseTree leaf;
         // System.out.println("Expected : " + expectedToken + ", Actual : " + currentToken.getType());
         if (!currentToken.getType().equals(expectedToken)) {
-            throw new RuntimeException();
+            throw new RuntimeException("\nParsing Error, Expected : " + expectedToken + ", Actual : " + currentToken.getType());
         } else {
             leaf = new ParseTree(currentToken);
             nextToken();
+
+            // Add the token to the variable table
+            if (currentToken != null) {
+                if (currentToken.getType().equals(LexicalUnit.VARNAME)) {
+                    if (!variableTable.containsKey(currentToken.getValue().toString())) {
+                        variableTable.put(currentToken.getValue().toString(), currentToken);
+                    }
+                }
+            }
+
         }
         return leaf;
     }

@@ -22,40 +22,31 @@ public class Main {
         }
 
         TreeMap<String, Symbol> variableTable = new TreeMap<>();
-        Symbol symbol;
-        try {
-            LexicalAnalyzer lexer = new LexicalAnalyzer(new FileReader(inputPath));
-            while ((symbol = lexer.nextToken()).getValue() != null) {
-                // System.out.println(symbol);
-                if (symbol.getType().equals(LexicalUnit.VARNAME)) {
-                    if (!variableTable.containsKey(symbol.getValue().toString())) {
-                        variableTable.put(symbol.getValue().toString(), symbol);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // to do after reading
-        if (!variableTable.isEmpty()) {
-            System.out.println("\nVariables");
-
-            for (Map.Entry<String, Symbol> variable : variableTable.entrySet()) {
-                System.out.println(variable.getKey() + "\t" + variable.getValue().getLine());
-            }
-        }
 
         try {
+            // Parse the input file
             Parser parser = new Parser(new LexicalAnalyzer(new FileReader(inputPath)));
             ParseTree parseTree = parser.startParsing();
+
+            // Retrieve the variable table
+            variableTable = parser.getVariableTable();
             if (requiresOutput) {
+                // Write the parse tree in the LaTeX file
                 FileWriter fileWriter = new FileWriter(outputPath);
                 fileWriter.write(parseTree.toLaTeX());
                 fileWriter.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        // Print the Variable Table
+        if (!variableTable.isEmpty()) {
+            // System.out.println("\nVariables");
+
+            for (Map.Entry<String, Symbol> variable : variableTable.entrySet()) {
+                // System.out.println(variable.getKey() + "\t" + variable.getValue().getLine());
+            }
         }
     }
 }
