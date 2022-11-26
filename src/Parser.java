@@ -18,6 +18,12 @@ public class Parser {
         return variableTable;
     }
 
+    /**
+     * Calls the first function of the recursive parser
+     *
+     * @return the ParseTree corresponding to the parsing of the language read by the lexical analyser given when
+     * parser was created.
+     */
     public ParseTree startParsing() {
         nextToken();
         return Program();
@@ -48,7 +54,7 @@ public class Parser {
                 leaves.add(Code());
                 return new ParseTree(new Symbol(LexicalUnit.Code, "Code"), leaves);
             }
-            default -> throw new RuntimeException();
+            default -> throw new RuntimeException("\nParsing Error, Unexpected token : " + currentToken.getType() + " at line " + currentToken.getLine());
         }
     }
 
@@ -144,7 +150,7 @@ public class Parser {
     }
 
     private ParseTree Read() {
-        System.out.print("31 ");
+        System.out.print("32 ");
         List<ParseTree> leaves = new ArrayList<>();
         leaves.add(match(LexicalUnit.READ));
         leaves.add(match(LexicalUnit.LPAREN));
@@ -178,7 +184,7 @@ public class Parser {
                 System.out.print("28 ");
                 leaves.add(match(LexicalUnit.SMALLER));
             }
-
+            default -> throw new RuntimeException("\nParsing Error, Unexpected token : " + currentToken.getType() + " at line " + currentToken.getLine());
         }
         return new ParseTree(new Symbol(LexicalUnit.Comp, "Comp"), leaves);
     }
@@ -267,19 +273,29 @@ public class Parser {
                 leaves.add(Expression());
                 leaves.add(match(LexicalUnit.RPAREN));
             }
+            default -> throw new RuntimeException("\nParsing Error, Unexpected token : " + currentToken.getType() + " at line " + currentToken.getLine());
         }
         return new ParseTree(new Symbol(LexicalUnit.Atom, "Atom"), leaves);
     }
 
+    /**
+     * Allows for interfacing the nextToken function of the LexicalAnalyser
+     */
     private void nextToken() {
         try {
             currentToken = lexer.nextToken();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Couldn't get the next token from lexical analyser", e);
         }
 
     }
 
+    /**
+     * Checks if the look-ahead correspond to the symbol that should be on the stack while reducing a grammar rule
+     *
+     * @param expectedToken : token expected as look-ahead in this configuration of the parser
+     * @return ParseTree node corresponding to the symbol that was matched
+     */
     private ParseTree match(LexicalUnit expectedToken) {
         ParseTree leaf;
         // System.out.println("Expected : " + expectedToken + ", Actual : " + currentToken.getType());
@@ -289,7 +305,7 @@ public class Parser {
             leaf = new ParseTree(currentToken);
             nextToken();
 
-            // Add the token to the variable table
+            // Add the token to the variable table if it is a variable
             if (currentToken != null) {
                 if (currentToken.getType().equals(LexicalUnit.VARNAME)) {
                     if (!variableTable.containsKey(currentToken.getValue().toString())) {

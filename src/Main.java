@@ -4,6 +4,11 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 public class Main {
+
+    /**
+     *
+     * @param args input_file [-wt output_latex_file]
+     */
     public static void main(String[] args) {
         String inputPath = null;
         String outputPath = null;
@@ -18,7 +23,8 @@ public class Main {
                 outputPath = args[1];
             }
         } else {
-            throw new IllegalArgumentException("wrong arguments");
+            System.out.println("Arguments expected : input_file [-wt output_file]");
+            throw new IllegalArgumentException("Wrong arguments");
         }
 
         TreeMap<String, Symbol> variableTable = new TreeMap<>();
