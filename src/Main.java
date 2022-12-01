@@ -23,7 +23,7 @@ public class Main {
                 outputPath = args[1];
             }
         } else {
-            System.out.println("Arguments expected : input_file [-wt output_file]");
+            System.out.println("Arguments expected : [-wt output_file] input_file");
             throw new IllegalArgumentException("Wrong arguments");
         }
 
@@ -33,6 +33,12 @@ public class Main {
             // Parse the input file
             Parser parser = new Parser(new LexicalAnalyzer(new FileReader(inputPath)));
             ParseTree parseTree = parser.startParsing();
+
+            ASTCreator astCreator = new ASTCreator();
+            parseTree = astCreator.castParseTreeToAST(parseTree);
+
+            Compiler compiler = new Compiler(parseTree);
+            compiler.compile();
 
             // Retrieve the variable table
             variableTable = parser.getVariableTable();
