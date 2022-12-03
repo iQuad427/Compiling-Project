@@ -24,44 +24,35 @@ declare i32 @printf(i8*, ...)
 define i32 @main() {
     entry:
 
-%number = alloca i32
-%0 = call i32 @readInt()
-store i32 %0, i32* %number
-%result = alloca i32
-%1 = add i32 0, 1
-store i32 %1, i32* %result
-%2 = load i32, i32* %number
-%3 = add i32 0, 1
-%4 = sub i32 0, %3
-%5 = icmp sgt i32 %2, %4
-br i1 %5, label %label0, label %label1
-label0:
-br label %label3
-label3:
-%6 = load i32, i32* %number
-%7 = add i32 0, 0
-%8 = icmp sgt i32 %6, %7
-br i1 %8, label %label4, label %label5
-label4:
-%9 = load i32, i32* %result
-%10 = load i32, i32* %number
-%11 = mul i32 %9, %10
-store i32 %11, i32* %result
-%12 = load i32, i32* %number
-%13 = add i32 0, 1
-%14 = sub i32 %12, %13
-store i32 %14, i32* %number
-br label %label3
-label5:
-br label %label2
-label1:
-%15 = add i32 0, 1
-%16 = sub i32 0, %15
-store i32 %16, i32* %result
-br label %label2
-label2:
-%17 = load i32, i32* %result
-call void @println(i32 %17)
+%a = alloca i32
+%0 = add i32 0, 2
+%1 = sub i32 0, %0
+%2 = add i32 0, 3
+%3 = add i32 0, 6
+%4 = add i32 0, 1
+%5 = add i32 %3, %4
+%6 = mul i32 %2, %5
+%7 = add i32 0, 5
+%8 = sdiv i32 %6, %7
+%9 = add i32 %1, %8
+%10 = add i32 0, 14
+%11 = add i32 %9, %10
+%12 = add i32 0, 4
+%13 = sub i32 0, %12
+%14 = add i32 0, 64
+%15 = add i32 %13, %14
+%16 = add i32 0, 2
+%17 = sdiv i32 %15, %16
+%18 = sub i32 %11, %17
+%19 = add i32 0, 3
+%20 = add i32 0, 50
+%21 = mul i32 %19, %20
+%22 = add i32 0, 2
+%23 = sdiv i32 %21, %22
+%24 = sub i32 %18, %23
+store i32 %24, i32* %a
+%25 = load i32, i32* %a
+call void @println(i32 %25)
         ret i32 0
 }
 

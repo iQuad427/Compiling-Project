@@ -35,10 +35,7 @@ public class Main {
             ParseTree parseTree = parser.startParsing();
 
             ASTCreator astCreator = new ASTCreator();
-            parseTree = astCreator.castParseTreeToAST(parseTree);
-
-            Compiler compiler = new Compiler(parseTree);
-            compiler.compile();
+            parseTree = astCreator.castParseTreeToAST(parseTree, null);
 
             // Retrieve the variable table
             variableTable = parser.getVariableTable();
@@ -48,6 +45,10 @@ public class Main {
                 fileWriter.write(parseTree.toLaTeX());
                 fileWriter.close();
             }
+
+            Compiler compiler = new Compiler(parseTree);
+            compiler.compile();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
