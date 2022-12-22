@@ -11,8 +11,6 @@ IF (number > -1) THEN
     result := result * number ,
     number := number - 1 ,    :: decrease number
   END ,
-  ELSE                        :: The input number is negative
-  result := -1 ,
 END ,
 PRINT(result) ,
 END

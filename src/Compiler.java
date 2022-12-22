@@ -3,7 +3,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Compiler {
-    ParseTree AST = null;
+    ParseTree AST;
     private int counter = 0;
     private int label = 0;
     private Set<String> variables = new HashSet<>();
@@ -49,8 +49,7 @@ public class Compiler {
                 // Starts main function
                 System.out.println("""
                 define i32 @main() {
-                    entry:
-                """);
+                    entry:""");
 
                 // Compile the code
                 compileNode(parseTree.getChildren().get(0));
@@ -81,9 +80,7 @@ public class Compiler {
                 // End of compilation (assign)
                 System.out.printf("store i32 %%%d, i32* %%%s\n", counter - 1, variable);
             }
-            case NUMBER -> {
-                System.out.printf("%%%d = add i32 0, %s\n", counter++, parseTree.getLabel().getValue().toString());
-            }
+            case NUMBER -> System.out.printf("%%%d = add i32 0, %s\n", counter++, parseTree.getLabel().getValue().toString());
             case VARNAME -> {
                 String variable = parseTree.getLabel().getValue().toString();
 
@@ -147,8 +144,6 @@ public class Compiler {
             case If -> {
                 compileNode(parseTree.getChildren().get(0));
                 int comparison = this.counter - 1;
-
-                // TODO : icmp vs i1
 
                 int ifCode = label++;
                 int elseCode = label++;

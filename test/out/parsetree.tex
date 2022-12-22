@@ -1,0 +1,14 @@
+\documentclass[border=5pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{forest}
+
+\begin{document}
+
+\begin{forest}for tree={rectangle, draw, l sep=20pt}[{Program} [{Code} [{Read} [{number} ]][{Code} [{:=} [{result} ][{1} ]][{Code} [{If} [{>} [{number} ][{-} [{1} ]]][{Code} [{While} [{>} [{number} ][{0} ]][{Code} [{:=} [{result} ][{*} [{result} ][{number} ]]][{Code} [{:=} [{number} ][{-} [{number} ][{1} ]]]]]]][{Code} [{:=} [{result} ][{-} [{1} ]]]]][{Code} [{Print} [{result} ]]]]]]];
+\end{forest}
+
+\end{document}
+%% Local Variables:
+%% TeX-engine: pdflatex
+%% End:
